@@ -15,7 +15,7 @@ from psycopg2.extras import RealDictCursor, Json
 DSN = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/pruebas")
 ADMIN = os.getenv("ADMIN_TOKEN", "admin123")
 D = os.path.dirname(os.path.abspath(__file__))
-# id -> (nivel, título). Solo intermedio y avanzado.
+# id -> (nivel, título). Se conservan todas para poder mostrar entregas antiguas.
 ACT = {
     "registro": ("Intermedio", "BancoLuz - Registro de usuarios"),
     "reserva": ("Intermedio", "HotelMar - Reserva de habitaciones"),
@@ -23,6 +23,8 @@ ACT = {
     "transfer": ("Avanzado", "BancoLuz - Transferencias entre cuentas"),
     "pedidos": ("Avanzado", "TiendaNova - Pedidos y estados"),
 }
+# Actividades que se asignan a usuarios nuevos: solo nivel intermedio.
+POOL = ["registro", "reserva", "login"]
 
 app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -69,7 +71,7 @@ def usuarios_update(u: U):
     """Registra al usuario y le asigna una actividad al azar. Si el correo ya existe, conserva su actividad."""
     return q("""INSERT INTO usuarios(nombre,correo,actividad_id) VALUES(%s,%s,%s)
                 ON CONFLICT(correo) DO UPDATE SET nombre=EXCLUDED.nombre RETURNING *""",
-             (u.nombre.strip(), u.correo.strip().lower(), random.choice(list(ACT))), one=True)
+             (u.nombre.strip(), u.correo.strip().lower(), random.choice(POOL)), one=True)
 
 
 @app.post("/finalizar_act")
