@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard · Prueba de desarrollo</title>
+<style>
+:root{--bg:#e6ece7;--sf:#f7faf6;--ink:#16263a;--mut:#5b6b7a;--ln:#c9d4cc;--ok:#1f7a45;--wa:#a86a00;--code:#eef3ee}
+@media (prefers-color-scheme:dark){:root{--bg:#101a17;--sf:#17241f;--ink:#e3ece6;--mut:#94a89d;--ln:#2b3d35;--ok:#5fd08a;--wa:#e0b04a;--code:#0f1a16}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:24px 16px 48px}
+h1{margin:0 0 4px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+input,button{font:inherit;padding:8px 12px;border:1px solid var(--ink);border-radius:6px;background:var(--sf);color:var(--ink)}
+button{cursor:pointer;font-weight:600}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px 16px;margin:10px 0}
+summary{cursor:pointer}
+.hint{color:var(--mut);font-size:14px}
+.chip{padding:1px 10px;border-radius:99px;border:1px solid currentColor;font-size:13px}
+.s2{color:var(--ok)}.s4{color:var(--wa)}
+pre{background:var(--code);padding:10px;border-radius:6px;white-space:pre-wrap;word-break:break-word;font-size:13px;max-height:420px;overflow:auto}
+</style>
+</head>
+<body>
+<main>
+  <h1>Dashboard de la prueba</h1>
+  <div class="bar"><input id="tk" type="password" placeholder="Token de administrador" aria-label="Token"><button id="ld">Cargar</button></div>
+  <p id="msg" class="hint" role="status"></p><p id="st"><b></b></p>
+  <div id="rows"></div>
+</main>
+<script>
+const API='',$=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=d=>d?new Date(d).toLocaleString('es-MX'):'—';
+let tok='';try{tok=sessionStorage.getItem('tok')||''}catch(e){}
+async function load(){
+  tok=$('tk').value||tok;$('msg').textContent='Cargando…';
+  try{
+    const r=await fetch(API+'/admin/usuarios',{headers:{'X-Admin-Token':tok}});
+    if(r.status===401){$('msg').textContent='Token inválido.';return}
+    if(!r.ok)throw 0;
+    try{sessionStorage.setItem('tok',tok)}catch(e){}
+    $('msg').textContent='Actualizado '+new Date().toLocaleTimeString('es-MX');draw(await r.json());
+  }catch(e){$('msg').textContent='No se pudo conectar al servidor.'}
+}
+function draw(a){
+  const f=a.filter(x=>x.estado==='finalizada').length;
+  $('st').textContent=`${a.length} registrados · ${f} finalizaron · ${a.length-f} en curso`;
+  $('rows').innerHTML=a.map(x=>{
+    const h=x.historial||[],ok=x.estado==='finalizada';
+    const det=ok?`<label class="hint">Notas del alumno</label><pre>${esc(x.notas||'(sin notas)')}</pre>
+      <label class="hint">Peticiones realizadas (${h.length})</label>
+      <pre>${h.map(r=>`${esc(r.m)} ${esc(r.u)} → ${esc(r.c)}${r.b?'\n  cuerpo: '+esc(r.b):''}\n  respuesta: ${esc(JSON.stringify(r.r))}`).join('\n\n')||'(ninguna)'}</pre>`
+      :'<p class="hint">Todavía no envía su prueba.</p>';
+    return `<details class="card"><summary><b>${esc(x.nombre)}</b> <span class="hint">${esc(x.correo)}</span>
+      <span class="chip ${ok?'s2':'s4'}">${esc(x.estado)}</span>
+      <div class="hint">${esc(x.nivel)} · ${esc(x.titulo)} · registro ${fd(x.creado_en)} · fin ${fd(x.finalizado_en)}</div></summary>${det}</details>`}).join('')||'<p class="hint">Aún no hay usuarios.</p>';
+}
+$('ld').onclick=load;$('tk').onkeydown=e=>{if(e.key==='Enter')load()};
+if(tok)load();
+</script>
+</body>
+</html>
