@@ -4,61 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard · Prueba de desarrollo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#e6ece7;--sf:#f7faf6;--ink:#16263a;--mut:#5b6b7a;--ln:#c9d4cc;--ok:#1f7a45;--wa:#a86a00;--code:#eef3ee}
-@media (prefers-color-scheme:dark){:root{--bg:#101a17;--sf:#17241f;--ink:#e3ece6;--mut:#94a89d;--ln:#2b3d35;--ok:#5fd08a;--wa:#e0b04a;--code:#0f1a16}}
+:root{--bg:#eef2ef;--sf:#fff;--ink:#15231e;--mut:#61706a;--ln:#d9e2dc;--ac:#0f7a63;--ok:#177a44;--wa:#a15c00;--er:#b42318;--code:#f1f5f2;--dk:#0f1c18}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1512;--sf:#15211c;--ink:#e6efe9;--mut:#93a89d;--ln:#27382f;--ac:#3fbf9f;--ok:#5fd08a;--wa:#e0b04a;--er:#ff8a7a;--code:#0f1a16;--dk:#08110e}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
-main{max-width:980px;margin:0 auto;padding:24px 16px 48px}
-h1{margin:0 0 4px}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-input,button{font:inherit;padding:8px 12px;border:1px solid var(--ink);border-radius:6px;background:var(--sf);color:var(--ink)}
-button{cursor:pointer;font-weight:600}
-.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px 16px;margin:10px 0}
-summary{cursor:pointer}
-.hint{color:var(--mut);font-size:14px}
-.chip{padding:1px 10px;border-radius:99px;border:1px solid currentColor;font-size:13px}
-.s2{color:var(--ok)}.s4{color:var(--wa)}
-pre{background:var(--code);padding:10px;border-radius:6px;white-space:pre-wrap;word-break:break-word;font-size:13px;max-height:420px;overflow:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,sans-serif}
+code,input,select,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px clamp(16px,4vw,40px);background:var(--sf);border-bottom:1px solid var(--ln)}
+.brand{display:flex;gap:12px;align-items:center}.brand small{display:block;color:var(--mut);font-size:13px;line-height:1.2}
+.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:var(--ac);color:#fff;font-weight:800}
+main{max-width:1100px;margin:0 auto;padding:24px clamp(16px,4vw,40px) 56px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(20,40,30,.06)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat b{display:block;font-size:30px;font-weight:800;line-height:1.1}.stat span{color:var(--mut);font-size:14px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tools input{flex:1 1 220px}
+input,select,button{font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--ink)}
+input,select{font-family:"IBM Plex Mono",monospace;font-size:13px}
+button{cursor:pointer;font-weight:600}button:hover{border-color:var(--ac)}button.p{background:var(--ac);border-color:var(--ac);color:#fff}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 55%,transparent);outline-offset:1px}
+details.u{margin:10px 0;padding:0}details.u>summary{list-style:none;cursor:pointer;padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center}
+details.u>summary::-webkit-details-marker{display:none}
+.nm{font-weight:700;font-size:17px}.hint{color:var(--mut);font-size:14px}
+.chip{display:inline-block;padding:1px 10px;border-radius:99px;font:600 12px "IBM Plex Mono",monospace;background:color-mix(in srgb,currentColor 14%,transparent)}
+.s2{color:var(--ok)}.s3,.s4{color:var(--wa)}.s5{color:var(--er)}
+.det{padding:0 18px 18px;display:grid;grid-template-columns:1fr 1.3fr;gap:16px;border-top:1px solid var(--ln);padding-top:14px}
+h4{margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+pre{margin:0;padding:12px;border-radius:8px;background:var(--code);white-space:pre-wrap;word-break:break-word;max-height:460px;overflow:auto}
+.rq{border:1px solid var(--ln);border-radius:8px;margin:0 0 6px;background:var(--code)}.rq summary{cursor:pointer;padding:7px 10px;display:flex;gap:8px;align-items:center;font:500 12.5px "IBM Plex Mono",monospace}
+.rq .u{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rq pre{background:var(--dk);color:#d7efe6;border-radius:0 0 8px 8px;max-height:220px}
+.mb-GET{color:#177a44}.mb-POST{color:#2563eb}.mb-PUT{color:#a15c00}.mb-PATCH{color:#7c3aed}.mb-DELETE{color:#b42318}
+.list{max-height:520px;overflow:auto}
+@media (max-width:760px){.det{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<header class="top"><div class="brand"><span class="logo">QA</span><div><b>Dashboard de administrador</b><small>Resultados de la prueba de desarrollo</small></div></div>
+<div class="tools" style="margin:0"><input id="tk" type="password" placeholder="Token de administrador" aria-label="Token"><button class="p" id="ld">Cargar</button></div></header>
 <main>
-  <h1>Dashboard de la prueba</h1>
-  <div class="bar"><input id="tk" type="password" placeholder="Token de administrador" aria-label="Token"><button id="ld">Cargar</button></div>
-  <p id="msg" class="hint" role="status"></p><p id="st"><b></b></p>
+  <p id="msg" class="hint" role="status"></p>
+  <div class="stats" id="st"></div>
+  <div class="tools"><input id="q" placeholder="Buscar por nombre o correo…" aria-label="Buscar"><select id="fe" aria-label="Estado"><option value="">Todos los estados</option><option value="finalizada">Finalizaron</option><option value="en curso">En curso</option></select><select id="fa" aria-label="Actividad"><option value="">Todas las actividades</option></select></div>
   <div id="rows"></div>
 </main>
 <script>
 const API='',$=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fd=d=>d?new Date(d).toLocaleString('es-MX'):'—';
-let tok='';try{tok=sessionStorage.getItem('tok')||''}catch(e){}
-async function load(){
-  tok=$('tk').value||tok;$('msg').textContent='Cargando…';
+const fd=d=>d?new Date(d).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}):'—';
+const dur=(a,b)=>{if(!a||!b)return'';const m=Math.round((new Date(b)-new Date(a))/6e4);return m<60?m+' min':Math.floor(m/60)+' h '+m%60+' min'};
+let tok='',data=[];try{tok=sessionStorage.getItem('tok')||''}catch(e){}
+async function load(quiet){
+  tok=$('tk').value||tok;if(!quiet)$('msg').textContent='Cargando…';
   try{
     const r=await fetch(API+'/admin/usuarios',{headers:{'X-Admin-Token':tok}});
     if(r.status===401){$('msg').textContent='Token inválido.';return}
     if(!r.ok)throw 0;
     try{sessionStorage.setItem('tok',tok)}catch(e){}
-    $('msg').textContent='Actualizado '+new Date().toLocaleTimeString('es-MX');draw(await r.json());
+    data=await r.json();$('msg').textContent='Actualizado '+new Date().toLocaleTimeString('es-MX')+' · se refresca cada 30 s';
+    const cur=$('fa').value,acts=[...new Set(data.map(x=>x.titulo))];
+    $('fa').innerHTML='<option value="">Todas las actividades</option>'+acts.map(t=>`<option>${esc(t)}</option>`).join('');$('fa').value=cur;
+    draw();
   }catch(e){$('msg').textContent='No se pudo conectar al servidor.'}
 }
-function draw(a){
-  const f=a.filter(x=>x.estado==='finalizada').length;
-  $('st').textContent=`${a.length} registrados · ${f} finalizaron · ${a.length-f} en curso`;
+function draw(){
+  const f=data.filter(x=>x.estado==='finalizada').length,n=data.length;
+  $('st').innerHTML=[[n,'Registrados'],[f,'Finalizaron'],[n-f,'En curso'],[n?Math.round(f*100/n)+'%':'—','Completado']].map(([v,l])=>`<div class="card stat"><b>${v}</b><span>${l}</span></div>`).join('');
+  const q=$('q').value.toLowerCase(),fe=$('fe').value,fa=$('fa').value;
+  const a=data.filter(x=>(!fe||x.estado===fe)&&(!fa||x.titulo===fa)&&(!q||(x.nombre+' '+x.correo).toLowerCase().includes(q)));
+  const open=new Set([...document.querySelectorAll('details.u[open]')].map(d=>d.dataset.id));
   $('rows').innerHTML=a.map(x=>{
     const h=x.historial||[],ok=x.estado==='finalizada';
-    const det=ok?`<label class="hint">Notas del alumno</label><pre>${esc(x.notas||'(sin notas)')}</pre>
-      <label class="hint">Peticiones realizadas (${h.length})</label>
-      <pre>${h.map(r=>`${esc(r.m)} ${esc(r.u)} → ${esc(r.c)}${r.b?'\n  cuerpo: '+esc(r.b):''}\n  respuesta: ${esc(JSON.stringify(r.r))}`).join('\n\n')||'(ninguna)'}</pre>`
-      :'<p class="hint">Todavía no envía su prueba.</p>';
-    return `<details class="card"><summary><b>${esc(x.nombre)}</b> <span class="hint">${esc(x.correo)}</span>
-      <span class="chip ${ok?'s2':'s4'}">${esc(x.estado)}</span>
-      <div class="hint">${esc(x.nivel)} · ${esc(x.titulo)} · registro ${fd(x.creado_en)} · fin ${fd(x.finalizado_en)}</div></summary>${det}</details>`}).join('')||'<p class="hint">Aún no hay usuarios.</p>';
+    const det=ok?`<div><h4>Reporte del alumno</h4><pre>${esc(x.notas||'(sin notas)')}</pre></div>
+      <div><h4>Peticiones realizadas (${h.length})</h4><div class="list">${h.map(r=>`<details class="rq"><summary><span class="mb-${esc(r.m)}" style="font-weight:600;min-width:52px">${esc(r.m)}</span><span class="u">${esc(r.u)}</span><span class="chip s${String(r.c)[0]}">${esc(r.c)}</span></summary><pre>${r.b?'» '+esc(r.b)+'\n\n':''}${esc(JSON.stringify(r.r,null,2))}</pre></details>`).join('')||'<span class="hint">Ninguna.</span>'}</div></div>`
+      :'<p class="hint" style="grid-column:1/-1;margin:0">Todavía no envía su prueba.</p>';
+    return `<details class="card u" data-id="${x.id}"${open.has(String(x.id))?' open':''}><summary><span class="nm">${esc(x.nombre)} <span class="hint" style="font-weight:400">${esc(x.correo)}</span></span>
+      <span class="chip ${ok?'s2':'s4'}">${ok?'Finalizada':'En curso'}</span>
+      <span class="hint">${esc(x.nivel)} · ${esc(x.titulo)}</span><span class="hint">${ok?'Terminó '+fd(x.finalizado_en)+' · '+dur(x.creado_en,x.finalizado_en):'Registro '+fd(x.creado_en)}</span></summary><div class="det">${det}</div></details>`}).join('')||'<p class="hint">Sin resultados.</p>';
 }
-$('ld').onclick=load;$('tk').onkeydown=e=>{if(e.key==='Enter')load()};
-if(tok)load();
+$('ld').onclick=()=>load();$('tk').onkeydown=e=>{if(e.key==='Enter')load()};
+['q','fe','fa'].forEach(i=>$(i).oninput=draw);
+if(tok)load();setInterval(()=>{if(tok&&document.visibilityState==='visible')load(true)},30000);
 </script>
 </body>
 </html>

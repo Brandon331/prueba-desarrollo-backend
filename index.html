@@ -2,62 +2,61 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Banco de pruebas de desarrollo</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba de desarrollo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#e6ece7;--sf:#f7faf6;--ink:#16263a;--mut:#5b6b7a;--ln:#c9d4cc;--ac:#1f6f5c;--ok:#1f7a45;--wa:#a86a00;--er:#b42318;--code:#eef3ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a17;--sf:#17241f;--ink:#e3ece6;--mut:#94a89d;--ln:#2b3d35;--ac:#4cc3a3;--ok:#5fd08a;--wa:#e0b04a;--er:#ff8a7a;--code:#0f1a16}}
-:root[data-theme="dark"]{--bg:#101a17;--sf:#17241f;--ink:#e3ece6;--mut:#94a89d;--ln:#2b3d35;--ac:#4cc3a3;--ok:#5fd08a;--wa:#e0b04a;--er:#ff8a7a;--code:#0f1a16}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#eef2ef;--sf:#fff;--ink:#15231e;--mut:#61706a;--ln:#d9e2dc;--ac:#0f7a63;--ok:#177a44;--wa:#a15c00;--er:#b42318;--code:#f1f5f2;--dk:#0f1c18}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1512;--sf:#15211c;--ink:#e6efe9;--mut:#93a89d;--ln:#27382f;--ac:#3fbf9f;--ok:#5fd08a;--wa:#e0b04a;--er:#ff8a7a;--code:#0f1a16;--dk:#08110e}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,sans-serif}
-.mono,textarea,input,select,pre{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13.5px}
-header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between;padding:28px clamp(16px,4vw,48px) 12px}
-h1{margin:0;font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.05}
-header p{margin:6px 0 0;color:var(--mut);max-width:52ch}
-.ctl{display:flex;gap:8px;align-items:center}
-button,select{font:600 14px "Bricolage Grotesque",sans-serif;border:1px solid var(--ink);background:var(--sf);color:var(--ink);padding:8px 14px;border-radius:6px;cursor:pointer}
-button.p{background:var(--ink);color:var(--sf)}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--ac);outline-offset:1px}
-main{display:block;max-width:980px;margin:0 auto;padding:12px clamp(16px,4vw,48px) 48px}
-nav{display:flex;flex-direction:column;gap:6px}
-nav button{text-align:left;border-color:var(--ln);padding:10px 12px;display:flex;flex-direction:column;gap:0}
-nav button small{font-weight:400;color:var(--mut)}
-nav button[aria-current=true]{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--ac);background:var(--sf)}
-section.pane{min-width:0;display:grid;gap:16px}
-.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:18px}
-.card h2{margin:0 0 4px;font-size:22px;font-weight:800}
-.emp{color:var(--ac);font-weight:600;margin:0 0 8px}
-.doc{margin:12px 0 0;padding:12px 14px;background:var(--code);border-radius:6px;font-size:13.5px}
-.doc div{margin:2px 0}
-.bar{display:flex;gap:8px;flex-wrap:wrap}
-.bar select{width:96px;font-family:"IBM Plex Mono",monospace}
-.bar input{flex:1 1 220px;min-width:0}
-input,textarea{width:100%;border:1px solid var(--ln);background:var(--code);color:var(--ink);border-radius:6px;padding:9px 11px}
-textarea{resize:vertical;min-height:96px;margin-top:8px}
-label.t{display:block;font-weight:600;margin:14px 0 0}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-pre{margin:8px 0 0;padding:12px;background:var(--code);border-radius:6px;overflow-x:auto;min-height:96px;white-space:pre-wrap;word-break:break-word}
-.chip{display:inline-block;padding:2px 10px;border-radius:99px;font:500 13px "IBM Plex Mono",monospace;border:1px solid currentColor}
-.s2{color:var(--ok)}.s4{color:var(--wa)}.s5{color:var(--er)}
-.hist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.hist button{font:400 12px "IBM Plex Mono",monospace;padding:4px 8px;border-color:var(--ln)}
-.rev li{margin:6px 0}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Bricolage Grotesque",system-ui,sans-serif}
+code,textarea,input,select,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px}
+.top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(16px,4vw,40px);background:color-mix(in srgb,var(--sf) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--ln)}
+.brand{display:flex;gap:12px;align-items:center}.brand small{display:block;color:var(--mut);font-size:13px;line-height:1.2}
+.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:var(--ac);color:#fff;font-weight:800}
+#flag{font-size:14px;color:var(--mut)}
+main{max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,40px) 56px}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:20px;align-items:start}
+.work{display:grid;gap:20px;min-width:0}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:20px;box-shadow:0 1px 2px rgba(20,40,30,.06)}
+.brief{position:sticky;top:84px;max-height:calc(100vh - 104px);overflow:auto}
+h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+h3{margin:22px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;background:color-mix(in srgb,var(--ac) 14%,transparent);color:var(--ac);font-weight:600;font-size:13px;margin-bottom:8px}
 .hint{color:var(--mut);font-size:14px}
-@media (max-width:820px){main{grid-template-columns:1fr}nav{flex-direction:row;overflow-x:auto;padding-bottom:4px}nav button{min-width:150px}.two{grid-template-columns:1fr}}
+.ep{border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin:8px 0;background:var(--code)}
+.ep p{margin:6px 0}.ep dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px}
+.ep dt{color:var(--mut)}.ep dd{margin:0;font-family:"IBM Plex Mono",monospace;font-size:12.5px;word-break:break-word}
+.path{font-weight:600;color:var(--ac);font-size:14px}
+ul.rl{margin:0;padding-left:18px}ul.rl li{margin:5px 0;font-size:14.5px}
+button,select{font:600 14px "Bricolage Grotesque",sans-serif;border:1px solid var(--ln);background:var(--sf);color:var(--ink);padding:9px 14px;border-radius:8px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--ac)}button:disabled{opacity:.55;cursor:default}
+button.p{background:var(--ac);border-color:var(--ac);color:#fff}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 55%,transparent);outline-offset:1px}
+input,textarea{width:100%;border:1px solid var(--ln);background:var(--code);color:var(--ink);border-radius:8px;padding:10px 12px}
+textarea{resize:vertical;min-height:120px}
+label.t{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.bar input{flex:1 1 220px;min-width:0}.bar select{width:108px;font-family:"IBM Plex Mono",monospace;font-weight:600}
+select[data-m=GET],.mb-GET{color:#177a44}select[data-m=POST],.mb-POST{color:#2563eb}select[data-m=PUT],.mb-PUT{color:#a15c00}select[data-m=PATCH],.mb-PATCH{color:#7c3aed}select[data-m=DELETE],.mb-DELETE{color:#b42318}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+pre.out{margin:0;padding:12px;background:var(--dk);color:#d7efe6;border-radius:8px;min-height:120px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.chip{display:inline-block;padding:1px 9px;border-radius:99px;font:600 12px "IBM Plex Mono",monospace;background:color-mix(in srgb,currentColor 14%,transparent)}
+.s2{color:var(--ok)}.s3,.s4{color:var(--wa)}.s5{color:var(--er)}
+.hist{display:grid;gap:4px;margin-top:14px}
+.hist button{display:flex;gap:8px;align-items:center;text-align:left;font:500 12.5px "IBM Plex Mono",monospace;padding:6px 10px;border-radius:6px}
+.hist .u{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mb{font-weight:600;min-width:52px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hero{max-width:540px;margin:5vh auto}
+.steps{display:grid;gap:10px;margin:16px 0 4px;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;font-size:15px}
+.steps li:before{content:counter(s);flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px}
+@media (max-width:940px){.grid{grid-template-columns:1fr}.brief{position:static;max-height:none}.two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <div>
-    <h1>Prueba de desarrollo</h1>
-    <p>Regístrate para recibir tu actividad. Es un caso real: lee el enunciado, averigua cómo se usa el servicio, pruébalo como QA, anota los casos y los bugs que encuentres y envía la prueba al terminar.</p>
-  </div>
-  <span class="hint" id="flag" role="status"></span>
-</header>
-<main><nav id="nav" aria-label="Niveles" style="flex-direction:row;flex-wrap:wrap;margin-bottom:16px"></nav><section class="pane" id="pane"><p class="hint">Preparando tu problema…</p></section></main>
-
+<header class="top"><div class="brand"><span class="logo">QA</span><div><b>Prueba de desarrollo</b><small>Laboratorio de pruebas de API</small></div></div><span id="flag" role="status"></span></header>
+<main><section id="pane"></section></main>
 <script>
 const S=[
 {id:'cupon',nivel:0,emp:'TiendaNova',tit:'Cupones de descuento',
@@ -181,38 +180,50 @@ const S=[
   return[404,{error:'Ruta no encontrada'}]}}
 
 ];
-
 const API='';
 const URL_USR=API+'/usuarios/update',URL_FIN=API+'/finalizar_act';
 const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let p=null,s=null,me=null,done=false,inicio=new Date().toISOString();
-const flag=t=>{const e=$('flag');if(e)e.textContent=t};
+const flag=t=>{$('flag').textContent=t};
 const NEW={
 registro:{wm:'GET',base:'/api/registro',
- his:'BancoLuz tiene un servicio en /api/registro para dar de alta a sus nuevos clientes. La persona proporciona su email, una contraseña y su edad, y el servicio decide si la cuenta se crea o por qué se rechaza.',
- doc:['Datos de entrada: email, password, edad.','El email debe tener formato válido (algo@dominio.ext).','La contraseña debe tener mínimo 8 caracteres y al menos un número.','Solo pueden registrarse mayores de edad (18 o más).','Un email ya registrado no puede volver a crearse. Ya existe: ana@mail.com','Códigos posibles: 201, 400, 403, 409.']},
+ his:'BancoLuz quiere que sus nuevos clientes abran una cuenta en línea. El equipo ya construyó el servicio y necesita que alguien lo pruebe antes de salir a producción.',
+ api:[{r:'/api/registro',d:'Da de alta a un cliente nuevo.',i:'{ email, password, edad }',o:'{ mensaje, email } si la cuenta se crea; { error } si se rechaza'}],
+ reglas:['El email debe tener formato válido (algo@dominio.ext).','La contraseña debe tener mínimo 8 caracteres y al menos un número.','Solo pueden registrarse mayores de edad (18 o más).','Un email ya registrado no puede volver a crearse. Ya existe: ana@mail.com','Códigos posibles: 201, 400, 403, 409.']},
 reserva:{wm:'DELETE',base:'/api/reserva',
- his:'HotelMar tiene un servicio en /api/reserva para que los huéspedes reserven una estancia y conozcan el precio total.',
- doc:['Datos: entrada y salida (formato AAAA-MM-DD, ej. 2026-10-05) y huespedes.','Hoy es 2026-09-27. No se reserva en fechas pasadas.','La salida debe ser posterior a la entrada.','Se aceptan de 1 a 4 huéspedes.','Cada noche cuesta $1200. Estancias de 7 noches o más tienen 10% de descuento.','Códigos posibles: 201, 400.']},
+ his:'HotelMar quiere que los huéspedes reserven en línea y vean el precio total de su estancia. El servicio ya está construido y hay que validarlo.',
+ api:[{r:'/api/reserva',d:'Registra una reserva y calcula el precio total.',i:'{ entrada, salida, huespedes }  (fechas en formato AAAA-MM-DD)',o:'{ noches, total } si se acepta; { error } si no'}],
+ reglas:['Hoy es 2026-09-27. No se reserva en fechas pasadas.','La salida debe ser posterior a la entrada.','Se aceptan de 1 a 4 huéspedes.','Cada noche cuesta $1200. Estancias de 7 noches o más tienen 10% de descuento.','Códigos posibles: 201, 400.']},
 login:{wm:'GET',base:'/api/login',
- his:'AppSegura tiene un servicio en /api/login para que sus usuarios inicien sesión. Para proteger las cuentas, tras varios intentos fallidos la cuenta se bloquea.',
- doc:['Datos: user y pass. Existe la cuenta "demo" con clave Secreta123.','3 contraseñas incorrectas seguidas bloquean la cuenta (423).','Una cuenta bloqueada no inicia sesión ni con la clave correcta.','Los errores no deben revelar si el usuario existe.','Campos vacíos → 400. Códigos posibles: 200, 400, 401, 423.']},
+ his:'AppSegura quiere proteger las cuentas de sus usuarios: tras varios intentos fallidos, la cuenta se bloquea. Hay que comprobar que el servicio de acceso se comporta como debe.',
+ api:[{r:'/api/login',d:'Valida las credenciales y entrega un token de sesión.',i:'{ user, pass }',o:'{ token } si entra; { error } si no'}],
+ reglas:['Existe la cuenta "demo" con clave Secreta123.','3 contraseñas incorrectas seguidas bloquean la cuenta (423).','Una cuenta bloqueada no inicia sesión ni con la clave correcta.','Los errores no deben revelar si el usuario existe.','Campos vacíos → 400. Códigos posibles: 200, 400, 401, 423.']},
 transfer:{wm:'DELETE',base:'/api/transferir',
- his:'BancoLuz tiene los servicios /api/cuentas/{id} y /api/transferir para consultar saldos y mover dinero entre cuentas, sin duplicar cobros aunque el cliente reintente la operación.',
- doc:['Cuentas: A001 ($8000), A002 ($500), A003 ($0). Una cuenta que no existe → 404.','Transferencia: datos origen, destino, monto y clave.','monto > 0, con máximo 2 decimales. Origen y destino distintos y existentes (404).','Máximo $3000 por transferencia y $5000 acumulados por día y por cuenta origen (422).','Se puede transferir todo el saldo (queda en $0). Si no alcanza → 422.','clave es de idempotencia: repetir la misma clave NO mueve dinero otra vez; devuelve el resultado original.','Códigos posibles: 200, 400, 404, 422.']},
+ his:'BancoLuz quiere mover dinero entre cuentas por API, sin duplicar cobros aunque el cliente reintente la operación. Tu trabajo es encontrar dónde falla.',
+ api:[{r:'/api/cuentas/{id}',d:'Consulta el saldo de una cuenta.',i:'El id va en la ruta, ej. /api/cuentas/A001',o:'{ id, saldo }'},
+      {r:'/api/transferir',d:'Mueve dinero de una cuenta a otra.',i:'{ origen, destino, monto, clave }',o:'{ ok, saldo_origen, saldo_destino }; { error } si falla'}],
+ reglas:['Cuentas disponibles: A001 ($8000), A002 ($500), A003 ($0).','Una cuenta que no existe → 404 (al consultar y al transferir).','monto mayor a 0, con máximo 2 decimales.','Origen y destino deben ser distintos.','Máximo $3000 por transferencia y $5000 acumulados por día por cuenta origen (422).','Se puede transferir todo el saldo (queda en $0). Si no alcanza → 422.','clave es de idempotencia: repetir la misma clave NO mueve dinero otra vez; devuelve el resultado original.','Códigos posibles: 200, 400, 404, 422.']},
 pedidos:{wm:'PUT',base:'/api/pedidos',
- his:'TiendaNova tiene servicios en /api/pedidos para crear pedidos, consultarlos y avanzar su estado hasta la entrega, sin permitir saltos ilógicos.',
- doc:['Un pedido se crea con una lista de items (sku y qty) y devuelve id, estado y total.','Precios: LAP $900, MOU $25, TEC $60. qty entero de 1 a 10. Máximo 5 líneas. SKU desconocido → 400.','Envío $50; gratis si el subtotal es $1000 o más.','Un pedido se consulta por id (/api/pedidos/{id}) → 404 si no existe.','El estado se cambia en /api/pedidos/{id}/estado enviando el campo estado.','Flujo: creado → pagado → enviado → entregado. Se puede cancelar solo desde creado o pagado.','entregado y cancelado son finales. Transición inválida → 409. Id inexistente → 404.']}};
+ his:'TiendaNova quiere que sus clientes creen pedidos y que el pedido avance por estados hasta la entrega, sin permitir saltos ilógicos. Los servicios ya están construidos y hay que probarlos.',
+ api:[{r:'/api/pedidos',d:'Crea un pedido nuevo con uno o varios productos. Nace en estado "creado".',i:'{ items: [ { sku, qty } ] }',o:'{ id, estado, total }  (el id, como P1, P2…, sirve para los demás servicios)'},
+      {r:'/api/pedidos/{id}',d:'Consulta un pedido que ya fue creado.',i:'El id va en la ruta, ej. /api/pedidos/P1',o:'{ id, estado, total }'},
+      {r:'/api/pedidos/{id}/estado',d:'Avanza o cancela un pedido existente.',i:'{ estado }  (ej. "pagado")',o:'El pedido con su nuevo estado; { error } si no se permite'}],
+ reglas:['Precios: LAP $900, MOU $25, TEC $60.','qty entero de 1 a 10. Máximo 5 líneas por pedido. SKU desconocido → 400.','Envío $50; gratis si el subtotal es $1000 o más. El total incluye el envío.','Flujo: creado → pagado → enviado → entregado. Solo se puede cancelar desde creado o pagado.','entregado y cancelado son finales. Transición inválida → 409.','Consultar o cambiar el estado de un id que no existe → 404.','Códigos posibles: 200, 201, 400, 404, 409.']}};
 S.forEach(x=>Object.assign(x,NEW[x.id]||{}));
 const post=async(u,d)=>{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()};
 const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
 const draft=()=>LS('draft:'+me.correo,{hist:s.hist.slice(-100),notes:s.notes});
 
 function reg(msg){
-  $('nav').innerHTML='';
-  $('pane').innerHTML=`<div class="card" style="max-width:480px"><h2>Registro</h2><p class="hint">Escribe tus datos para recibir tu actividad.</p>
-  <label class="t" for="rn">Nombre</label><input id="rn" autocomplete="name"><label class="t" for="rc">Correo</label><input id="rc" type="email" autocomplete="email">
-  <p id="rm" role="alert" style="color:var(--er)"></p><button class="p" id="rb">Comenzar</button></div>`;
+  flag('');
+  $('pane').innerHTML=`<div class="card hero"><span class="tag">Prueba técnica</span><h2>Bienvenido/a</h2>
+  <p class="hint" style="margin:0">Recibirás un caso real de una empresa. No hay opción de elegir: te toca uno.</p>
+  <ol class="steps"><li>Lee el caso y averigua cómo se usa el servicio.</li><li>Pruébalo como QA con el cliente de peticiones.</li><li>Anota los bugs que encuentres y envía tu reporte.</li></ol>
+  <label class="t" for="rn">Nombre completo</label><input id="rn" autocomplete="name">
+  <label class="t" for="rc">Correo</label><input id="rc" type="email" autocomplete="email">
+  <p id="rm" role="alert" style="color:var(--er);margin:10px 0 0"></p>
+  <button class="p" id="rb" style="margin-top:14px;width:100%">Comenzar prueba</button></div>`;
   $('rm').textContent=msg||'';
   $('rb').onclick=async()=>{
     const nombre=$('rn').value.trim(),correo=$('rc').value.trim().toLowerCase();
@@ -230,32 +241,36 @@ function start(u){
   s={data:p.init(),hist:d.hist||[],notes:d.notes||'',req:{m:p.wm,u:p.base,b:''},res:null};
   flag('Sesión: '+u.nombre);render();
 }
+const TPL='Caso: \nPetición: \nEsperado: \nObtenido: \n\n';
 function render(){
-  const pane=$('pane');
-  pane.innerHTML=`
-  <div class="card"><p class="emp"></p><h2></h2><p class="his" style="margin:6px 0 0"></p><div class="doc"></div></div>
-  <div class="card"><b>Cliente de pruebas</b>
-    <div class="bar" style="margin-top:10px"><select id="m" aria-label="Método"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select><input id="u" aria-label="URL" spellcheck="false"><button class="p" id="go">Enviar petición</button></div>
-    <div class="two"><div><label class="t" for="b">Cuerpo (JSON)</label><textarea id="b" spellcheck="false"></textarea></div>
-    <div><label class="t">Respuesta <span id="chip"></span></label><pre id="out">Aún no enviaste ninguna petición.</pre></div></div>
+  const eps=p.api.map(e=>`<div class="ep"><code class="path">${esc(e.r)}</code><p>${esc(e.d)}</p><dl><dt>Recibe</dt><dd>${esc(e.i)}</dd><dt>Responde</dt><dd>${esc(e.o)}</dd></dl></div>`).join('');
+  $('pane').innerHTML=`<div class="grid">
+  <aside class="card brief"><span class="tag">${esc(p.emp)}</span><h2>${esc(p.tit)}</h2><p style="margin:6px 0 0">${esc(p.his)}</p>
+    <h3>Servicios disponibles</h3>${eps}<h3>Reglas de negocio</h3><ul class="rl">${p.reglas.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></aside>
+  <div class="work">
+   <div class="card"><div class="row"><b>Cliente de peticiones</b><span class="hint">Elige el método correcto y prueba el servicio</span></div>
+    <div class="bar"><select id="m" aria-label="Método"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select><input id="u" aria-label="Ruta" spellcheck="false"><button class="p" id="go">Enviar</button></div>
+    <div class="two"><div><label class="t" for="b">Cuerpo (JSON)</label><textarea id="b" spellcheck="false" placeholder='{ "campo": "valor" }'></textarea></div>
+     <div><label class="t">Respuesta <span id="chip"></span></label><pre class="out" id="out">Aún no enviaste ninguna petición.</pre></div></div>
     <div class="hist" id="hist"></div></div>
-  <div class="card"><label class="t" for="n" style="margin-top:0">Tus casos de prueba y bugs encontrados</label>
-    <textarea id="n" style="min-height:160px" placeholder="Ej: petición con total=-50 → devolvió 200, debería ser 400"></textarea>
-    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="p" id="fin"></button><button id="rs">Reiniciar datos de la API</button></div></div>`;
-  pane.querySelector('.emp').textContent=p.emp;pane.querySelector('h2').textContent=p.tit;pane.querySelector('.his').textContent=p.his;
-  const d=pane.querySelector('.doc');p.doc.forEach(t=>{const e=document.createElement('div');e.className='mono';e.textContent=t;d.appendChild(e)});
-  $('m').value=s.req.m;$('u').value=s.req.u;$('b').value=s.req.b;$('n').value=s.notes;
-  $('go').onclick=send;
+   <div class="card"><div class="row"><label class="t" for="n" style="margin:0">Reporte de QA: casos probados y bugs encontrados</label><button id="tp">+ Plantilla</button></div>
+    <textarea id="n" style="min-height:190px;margin-top:10px" placeholder="Ej: Caso: total=-50 → devolvió 200, debería ser 400"></textarea>
+    <div class="row" style="margin-top:12px"><span class="hint">Se guarda solo en este navegador hasta que envíes.</span><span><button id="rs">Reiniciar datos de la API</button> <button class="p" id="fin"></button></span></div></div>
+  </div></div>`;
+  $('m').value=s.req.m;$('m').dataset.m=s.req.m;$('u').value=s.req.u;$('b').value=s.req.b;$('n').value=s.notes;
+  $('m').onchange=e=>e.target.dataset.m=e.target.value;
+  $('go').onclick=send;$('u').onkeydown=e=>{if(e.key==='Enter')send()};$('b').onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))send()};
   $('n').oninput=e=>{s.notes=e.target.value;draft()};
-  $('fin').textContent=done?'Prueba enviada':'Finalizar y enviar prueba';$('fin').disabled=done;
+  $('tp').onclick=()=>{if(done)return;const n=$('n');n.value+=(n.value&&!n.value.endsWith('\n\n')?'\n\n':'')+TPL;n.oninput({target:n});n.focus()};
+  $('fin').textContent=done?'Prueba enviada ✓':'Finalizar y enviar';$('fin').disabled=done;
   $('fin').onclick=async()=>{
-    if(!confirm('Al enviar no podrás editar tus notas. ¿Continuar?'))return;
+    if(!confirm('Al enviar no podrás editar tu reporte. ¿Continuar?'))return;
     $('fin').disabled=true;flag('Enviando…');
     try{await post(URL_FIN,{correo:me.correo,actividad_id:p.id,notas:s.notes,historial:s.hist,inicio});
-      done=true;LS('draft:'+me.correo,null);flag('Prueba enviada');render()}
+      done=true;LS('draft:'+me.correo,null);flag('Prueba enviada ✓');render()}
     catch(e){$('fin').disabled=false;flag('No se pudo enviar ('+e.message+'). Intenta de nuevo.')}};
   $('rs').onclick=()=>{s.data=p.init();s.res=null;render()};
-  if(done)$('n').readOnly=true;
+  if(done){$('n').readOnly=true;$('tp').disabled=true}
   showRes();drawHist();
 }
 function showRes(){
@@ -264,9 +279,10 @@ function showRes(){
   $('out').textContent=JSON.stringify(s.res.b,null,2);
 }
 function drawHist(){
-  const h=$('hist');h.innerHTML='';
-  s.hist.slice(-8).reverse().forEach(r=>{const b=document.createElement('button');b.textContent=`${r.m} ${r.u} → ${r.c}`;
-    b.onclick=()=>{s.req={m:r.m,u:r.u,b:r.b};$('m').value=r.m;$('u').value=r.u;$('b').value=r.b};h.appendChild(b)});
+  const h=$('hist');h.innerHTML=s.hist.length?'<span class="hint">Historial (clic para repetir)</span>':'';
+  s.hist.slice(-6).reverse().forEach(r=>{const b=document.createElement('button');
+    b.innerHTML=`<span class="mb mb-${esc(r.m)}">${esc(r.m)}</span><span class="u">${esc(r.u)}</span><span class="chip s${String(r.c)[0]}">${esc(r.c)}</span>`;
+    b.onclick=()=>{s.req={m:r.m,u:r.u,b:r.b};$('m').value=r.m;$('m').dataset.m=r.m;$('u').value=r.u;$('b').value=r.b};h.appendChild(b)});
 }
 function send(){
   const m=$('m').value,url=$('u').value.trim(),raw=$('b').value.trim();
@@ -282,7 +298,6 @@ function send(){
 }
 const saved=LS('usr');
 if(saved)post(URL_USR,saved).then(start).catch(()=>reg());else reg();
-
 </script>
 </body>
 </html>
