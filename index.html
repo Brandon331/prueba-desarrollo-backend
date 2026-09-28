@@ -52,12 +52,95 @@ pre.out{margin:0;padding:12px;background:var(--dk);color:#d7efe6;border-radius:8
 .steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;font-size:15px}
 .steps li:before{content:counter(s);flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px}
 .fd{width:100%;border-collapse:collapse;font-size:14px}.fd td{padding:8px 6px;border-top:1px solid var(--ln);vertical-align:top}.fd td:first-child{width:34%;white-space:nowrap}.fd code{color:var(--mut);word-break:break-word;white-space:normal}.fd .path{color:var(--ac)}
+.rt{display:flex;align-items:center;gap:12px}.hb{width:36px;height:36px;padding:0;border-radius:50%;font-size:18px;font-weight:800;background:var(--ac);border-color:var(--ac);color:#fff}
+dialog{width:min(720px,94vw);max-height:88vh;overflow:auto;border:1px solid var(--ln);border-radius:16px;padding:0;background:var(--sf);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,20,16,.55)}
+.dh{position:sticky;top:0;z-index:1;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--sf);border-bottom:1px solid var(--ln)}
+.db{padding:4px 20px 20px}
+dialog details{border:1px solid var(--ln);border-radius:10px;margin:10px 0;background:var(--code)}dialog summary{cursor:pointer;padding:11px 14px;font-weight:700}
+dialog .in{padding:0 14px 12px;font-size:14.5px}dialog .in p{margin:8px 0}
+.ht{width:100%;border-collapse:collapse;font-size:14px}.ht td{padding:7px 8px;border-top:1px solid var(--ln);vertical-align:top}.ht td:first-child{white-space:nowrap;font-family:"IBM Plex Mono",monospace}
+dialog pre.out{min-height:0}
 @media (max-width:940px){.grid{grid-template-columns:1fr}.brief{position:static;max-height:none}.two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="top"><div class="brand"><span class="logo">QA</span><div><b>Prueba de desarrollo</b><small>Laboratorio de pruebas de API</small></div></div><span id="flag" role="status"></span></header>
+<header class="top"><div class="brand"><span class="logo">QA</span><div><b>Prueba de desarrollo</b><small>Laboratorio de pruebas de API</small></div></div><div class="rt"><span id="flag" role="status"></span><button id="hb" class="hb" aria-label="Ayuda" title="Ayuda">?</button></div></header>
 <main><section id="pane"></section></main>
+<dialog id="help" aria-labelledby="ht">
+<div class="dh"><b id="ht" style="font-size:18px">Ayuda para tu prueba</b><button id="hx" aria-label="Cerrar">Cerrar ✕</button></div>
+<div class="db">
+<details open><summary>1. ¿Para qué sirve cada método?</summary><div class="in">
+<p>El método le dice al servicio <b>qué quieres hacer</b>. Piensa en la descripción del servicio: ¿consulta algo, crea algo, cambia algo o lo elimina?</p>
+<table class="ht">
+<tr><td class="mb-GET"><b>GET</b></td><td><b>Leer o consultar</b> información sin modificar nada. No lleva cuerpo; los datos van en la ruta o en la URL.</td></tr>
+<tr><td class="mb-POST"><b>POST</b></td><td><b>Crear</b> algo nuevo o <b>ejecutar una acción</b> (registrar, iniciar sesión, transferir). Lleva cuerpo JSON.</td></tr>
+<tr><td class="mb-PUT"><b>PUT</b></td><td><b>Reemplazar</b> un elemento completo por los datos que envías.</td></tr>
+<tr><td class="mb-PATCH"><b>PATCH</b></td><td><b>Modificar solo una parte</b> de un elemento existente (por ejemplo, cambiar un campo).</td></tr>
+<tr><td class="mb-DELETE"><b>DELETE</b></td><td><b>Eliminar</b> un elemento.</td></tr>
+</table>
+<p>Si eliges un método que el servicio no acepta, responde <code>405 Método no permitido</code>. No es un bug: es la señal de que debes probar otro método.</p></div></details>
+
+<details><summary>2. Cómo escribir el cuerpo (JSON)</summary><div class="in">
+<p>El cuerpo es un texto con un formato estricto. Un solo símbolo mal puesto y la petición ni siquiera sale.</p>
+<pre class="out">{
+  "nombre": "Ana",
+  "edad": 30,
+  "activo": true,
+  "notas": null,
+  "productos": [ { "codigo": "AB1", "cantidad": 2 } ]
+}</pre>
+<ul class="rl">
+<li>Todo va dentro de llaves <code>{ }</code>. Las listas van dentro de corchetes <code>[ ]</code>.</li>
+<li>Los <b>nombres de los campos</b> siempre van entre <b>comillas dobles</b> <code>"</code>. Nunca comillas simples <code>'</code>.</li>
+<li>Los <b>textos</b> van entre comillas dobles: <code>"Ana"</code>, <code>"2026-10-05"</code>, <code>"A001"</code>.</li>
+<li>Los <b>números</b> van <b>sin comillas</b>: <code>30</code>, <code>49.99</code>. Con comillas serían texto: <code>"30"</code> ≠ <code>30</code>.</li>
+<li><code>true</code>, <code>false</code> y <code>null</code> van sin comillas y en minúsculas.</li>
+<li>Separa los elementos con coma, pero <b>no pongas coma después del último</b>.</li></ul>
+<table class="ht">
+<tr><td><b>Mal</b></td><td><code>{ sku: 'MOU' }</code> (sin comillas dobles) · <code>{ "qty": 2, }</code> (coma sobrante)</td></tr>
+<tr><td><b>Bien</b></td><td><code>{ "sku": "MOU", "qty": 2 }</code></td></tr>
+</table>
+<p>Si el cuerpo no es válido, verás <code>400 JSON inválido</code> y aún no estás probando el servicio, sino tu propio texto.</p></div></details>
+
+<details><summary>3. Datos en la ruta y en la URL</summary><div class="in">
+<p>No todo va en el cuerpo. Fíjate en cómo describe el servicio cada dato:</p>
+<ul class="rl">
+<li><b>En la ruta:</b> cuando el enunciado dice <code>/api/algo/{id}</code>, cambia <code>{id}</code> por un valor real: <code>/api/algo/A001</code>.</li>
+<li><b>En la URL con <code>?</code>:</b> se escriben como <code>?campo=valor</code> y se separan con <code>&amp;</code>: <code>/api/algo?a=1&amp;b=norte</code>. Aquí los textos no llevan comillas.</li>
+<li><b>En el cuerpo:</b> solo si el servicio dice que <i>recibe</i> un objeto <code>{ ... }</code>.</li></ul></div></details>
+
+<details><summary>4. ¿Qué significa cada código de respuesta?</summary><div class="in">
+<table class="ht">
+<tr><td><span class="chip s2">200</span> <span class="chip s2">201</span></td><td>Todo bien. 201 significa que se <b>creó</b> algo.</td></tr>
+<tr><td><span class="chip s4">400</span></td><td>La petición está mal hecha o le faltan datos / son de un tipo incorrecto.</td></tr>
+<tr><td><span class="chip s4">401</span> <span class="chip s4">403</span></td><td>401: credenciales incorrectas. 403: no tienes permiso o no cumples un requisito.</td></tr>
+<tr><td><span class="chip s4">404</span></td><td>Lo que buscas (ruta o elemento) no existe.</td></tr>
+<tr><td><span class="chip s4">405</span></td><td>Método incorrecto para esa ruta.</td></tr>
+<tr><td><span class="chip s4">409</span></td><td>Conflicto: lo pedido choca con el estado actual (duplicado, cambio no permitido).</td></tr>
+<tr><td><span class="chip s4">422</span> <span class="chip s4">423</span></td><td>422: los datos son válidos pero incumplen una regla de negocio. 423: recurso bloqueado.</td></tr>
+<tr><td><span class="chip s5">500</span></td><td>Error interno del servicio. <b>Un 500 nunca debería aparecer ante una petición del usuario.</b></td></tr>
+</table>
+<p>Compara siempre el código que recibes con el que las reglas del enunciado dicen que debería salir.</p></div></details>
+
+<details><summary>5. Cómo probar como QA</summary><div class="in">
+<ul class="rl">
+<li><b>Empieza por lo normal:</b> una petición correcta que debería funcionar, para confirmar que entiendes el servicio.</li>
+<li><b>Prueba los límites:</b> el valor justo en el borde de una regla, justo por encima y justo por debajo.</li>
+<li><b>Prueba datos raros:</b> campos vacíos, faltantes, negativos, con decimales, texto donde va un número.</li>
+<li><b>Prueba cada regla del enunciado</b> por separado, cambiando una sola cosa por petición.</li>
+<li><b>Repite peticiones y encadena pasos:</b> algunas reglas dependen de lo que hiciste antes (crear, luego consultar, luego modificar).</li>
+<li>Si un resultado te parece raro, léelo otra vez contra las reglas antes de reportarlo.</li>
+<li>El botón <i>Reiniciar datos de la API</i> devuelve el servicio a su estado inicial.</li></ul></div></details>
+
+<details><summary>6. Cómo escribir tu reporte</summary><div class="in">
+<p>Escribe un bloque por cada problema. Usa el botón <b>+ Plantilla</b>:</p>
+<pre class="out">Caso: descripción corta de lo que probaste
+Petición: método, ruta y cuerpo que enviaste
+Esperado: lo que dice el enunciado que debería pasar
+Obtenido: lo que respondió realmente el servicio</pre>
+<p>Solo cuenta como bug lo que <b>no coincide con las reglas del enunciado</b>. Sé concreto: los valores exactos y el código de respuesta.</p></div></details>
+</div></dialog>
 <script>
 const S=[
 {id:'cupon',nivel:0,emp:'TiendaNova',tit:'Cupones de descuento',
@@ -306,6 +389,8 @@ function send(){
 }
 const saved=LS('usr');
 if(saved)post(URL_USR,saved).then(start).catch(()=>reg());else reg();
+$('hb').onclick=()=>$('help').showModal();$('hx').onclick=()=>$('help').close();
+$('help').onclick=e=>{if(e.target.id==='help')$('help').close()};
 </script>
 </body>
 </html>
