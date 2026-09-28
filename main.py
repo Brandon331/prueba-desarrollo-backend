@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import psycopg2
+from calif import grade
 from psycopg2.extras import RealDictCursor, Json
 
 DSN = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/pruebas")
@@ -92,6 +93,7 @@ def admin_usuarios(x_admin_token: str = Header("")):
                 LEFT JOIN entregas e ON e.usuario_id=u.id ORDER BY u.creado_en DESC""")
     for r in rows:
         r["nivel"], r["titulo"] = ACT.get(r["actividad_id"], ("", r["actividad_id"]))
+        r["calif"] = grade(r["actividad_id"], r["notas"], r["historial"]) if r["estado"] == "finalizada" else None
     return rows
 
 

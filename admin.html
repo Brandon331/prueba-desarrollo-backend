@@ -35,6 +35,7 @@ pre{margin:0;padding:12px;border-radius:8px;background:var(--code);white-space:p
 .rq .u{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rq pre{background:var(--dk);color:#d7efe6;border-radius:0 0 8px 8px;max-height:220px}
 .mb-GET{color:#177a44}.mb-POST{color:#2563eb}.mb-PUT{color:#a15c00}.mb-PATCH{color:#7c3aed}.mb-DELETE{color:#b42318}
 .list{max-height:520px;overflow:auto}
+.rb{width:100%;border-collapse:collapse;font-size:14px}.rb td{padding:5px 8px;border-top:1px solid var(--ln)}.rb td:first-child{width:28px;text-align:center}
 @media (max-width:760px){.det{grid-template-columns:1fr}}
 </style>
 </head>
@@ -66,19 +67,25 @@ async function load(quiet){
     draw();
   }catch(e){$('msg').textContent='No se pudo conectar al servidor.'}
 }
+const ck=v=>v?'<b style="color:var(--ok)">✓</b>':'<b style="color:var(--er)">✗</b>';
+const rub=c=>`<div style="grid-column:1/-1"><h4>Calificación automática · ${c.nota}/100</h4><table class="rb">
+<tr><td>${ck(c.metodo)}</td><td>Encontró el método correcto de la API</td><td class="hint">10 pts</td></tr>
+<tr><td>${ck(c.feliz)}</td><td>Hizo al menos una petición exitosa</td><td class="hint">10 pts</td></tr>
+${c.bugs.map(b=>`<tr><td>${ck(b.probado)}</td><td>${esc(b.bug)}</td><td class="hint">${b.probado?'probado':'no probado'} · ${b.reportado?'mencionado en su reporte':'sin mencionar'}</td></tr>`).join('')}</table>
+<p class="hint" style="margin:8px 0 0">80 pts entre los bugs: la mitad por provocarlo en sus peticiones y la otra mitad por describirlo en el reporte. Es una nota de apoyo, revisa el reporte.</p></div>`;
 function draw(){
-  const f=data.filter(x=>x.estado==='finalizada').length,n=data.length;
-  $('st').innerHTML=[[n,'Registrados'],[f,'Finalizaron'],[n-f,'En curso'],[n?Math.round(f*100/n)+'%':'—','Completado']].map(([v,l])=>`<div class="card stat"><b>${v}</b><span>${l}</span></div>`).join('');
+  const f=data.filter(x=>x.estado==='finalizada').length,n=data.length,nt=data.filter(x=>x.calif).map(x=>x.calif.nota);
+  $('st').innerHTML=[[n,'Registrados'],[f,'Finalizaron'],[n-f,'En curso'],[n?Math.round(f*100/n)+'%':'—','Completado'],[nt.length?Math.round(nt.reduce((s,v)=>s+v,0)/nt.length):'—','Nota promedio']].map(([v,l])=>`<div class="card stat"><b>${v}</b><span>${l}</span></div>`).join('');
   const q=$('q').value.toLowerCase(),fe=$('fe').value,fa=$('fa').value;
   const a=data.filter(x=>(!fe||x.estado===fe)&&(!fa||x.titulo===fa)&&(!q||(x.nombre+' '+x.correo).toLowerCase().includes(q)));
   const open=new Set([...document.querySelectorAll('details.u[open]')].map(d=>d.dataset.id));
   $('rows').innerHTML=a.map(x=>{
     const h=x.historial||[],ok=x.estado==='finalizada';
-    const det=ok?`<div><h4>Reporte del alumno</h4><pre>${esc(x.notas||'(sin notas)')}</pre></div>
+    const det=ok?`${x.calif?rub(x.calif):''}<div><h4>Reporte del alumno</h4><pre>${esc(x.notas||'(sin notas)')}</pre></div>
       <div><h4>Peticiones realizadas (${h.length})</h4><div class="list">${h.map(r=>`<details class="rq"><summary><span class="mb-${esc(r.m)}" style="font-weight:600;min-width:52px">${esc(r.m)}</span><span class="u">${esc(r.u)}</span><span class="chip s${String(r.c)[0]}">${esc(r.c)}</span></summary><pre>${r.b?'» '+esc(r.b)+'\n\n':''}${esc(JSON.stringify(r.r,null,2))}</pre></details>`).join('')||'<span class="hint">Ninguna.</span>'}</div></div>`
       :'<p class="hint" style="grid-column:1/-1;margin:0">Todavía no envía su prueba.</p>';
     return `<details class="card u" data-id="${x.id}"${open.has(String(x.id))?' open':''}><summary><span class="nm">${esc(x.nombre)} <span class="hint" style="font-weight:400">${esc(x.correo)}</span></span>
-      <span class="chip ${ok?'s2':'s4'}">${ok?'Finalizada':'En curso'}</span>
+      <span>${x.calif?`<span class="chip s${x.calif.nota>=70?2:x.calif.nota>=40?4:5}" style="font-size:14px">${x.calif.nota}/100</span> `:''}<span class="chip ${ok?'s2':'s4'}">${ok?'Finalizada':'En curso'}</span></span>
       <span class="hint">${esc(x.nivel)} · ${esc(x.titulo)}</span><span class="hint">${ok?'Terminó '+fd(x.finalizado_en)+' · '+dur(x.creado_en,x.finalizado_en):'Registro '+fd(x.creado_en)}</span></summary><div class="det">${det}</div></details>`}).join('')||'<p class="hint">Sin resultados.</p>';
 }
 $('ld').onclick=()=>load();$('tk').onkeydown=e=>{if(e.key==='Enter')load()};
