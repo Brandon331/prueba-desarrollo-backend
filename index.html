@@ -51,6 +51,7 @@ pre.out{margin:0;padding:12px;background:var(--dk);color:#d7efe6;border-radius:8
 .steps{display:grid;gap:10px;margin:16px 0 4px;padding:0;list-style:none;counter-reset:s}
 .steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;font-size:15px}
 .steps li:before{content:counter(s);flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px}
+.fd{width:100%;border-collapse:collapse;font-size:14px}.fd td{padding:8px 6px;border-top:1px solid var(--ln);vertical-align:top}.fd td:first-child{width:34%;white-space:nowrap}.fd code{color:var(--mut);word-break:break-word;white-space:normal}.fd .path{color:var(--ac)}
 @media (max-width:940px){.grid{grid-template-columns:1fr}.brief{position:static;max-height:none}.two{grid-template-columns:1fr}}
 </style>
 </head>
@@ -210,6 +211,12 @@ pedidos:{wm:'PUT',base:'/api/pedidos',
       {r:'/api/pedidos/{id}',d:'Consulta un pedido que ya fue creado.',i:'El id va en la ruta, ej. /api/pedidos/P1',o:'{ id, estado, total }'},
       {r:'/api/pedidos/{id}/estado',d:'Avanza o cancela un pedido existente.',i:'{ estado }  (ej. "pagado")',o:'El pedido con su nuevo estado; { error } si no se permite'}],
  reglas:['Precios: LAP $900, MOU $25, TEC $60.','qty entero de 1 a 10. Máximo 5 líneas por pedido. SKU desconocido → 400.','Envío $50; gratis si el subtotal es $1000 o más. El total incluye el envío.','Flujo: creado → pagado → enviado → entregado. Solo se puede cancelar desde creado o pagado.','entregado y cancelado son finales. Transición inválida → 409.','Consultar o cambiar el estado de un id que no existe → 404.','Códigos posibles: 200, 201, 400, 404, 409.']}};
+const FIELDS={
+registro:[['email','texto','Correo de la persona que se registra','"luis@mail.com"'],['password','texto','Contraseña que elige para su cuenta','"clave1234"'],['edad','número','Edad de la persona, en años','25']],
+reserva:[['entrada','texto (fecha)','Día de llegada al hotel, en formato AAAA-MM-DD','"2026-10-05"'],['salida','texto (fecha)','Día en que se va del hotel, en formato AAAA-MM-DD','"2026-10-08"'],['huespedes','número entero','Cantidad de personas que se hospedan','2'],['noches','número','Noches de la estancia (calculadas por el servicio)','3']],
+login:[['user','texto','Nombre de usuario de la cuenta','"demo"'],['pass','texto','Contraseña de esa cuenta','"Secreta123"'],['token','texto','Código que identifica la sesión abierta; lo entrega el servicio','"tk_a1b2c3d4"']],
+transfer:[['id','texto','Identificador de una cuenta; va en la ruta','"A001"'],['origen','texto','Cuenta de la que sale el dinero','"A001"'],['destino','texto','Cuenta que recibe el dinero','"A002"'],['monto','número','Dinero a mover, en pesos','100  ó  49.99'],['clave','texto','Identificador único de la operación; si el cliente reintenta con la misma clave, no se cobra dos veces','"op-001"'],['saldo','número','Dinero disponible en una cuenta','8000']],
+pedidos:[['items','lista','Productos del pedido; cada elemento lleva un sku y una qty','[ { "sku": "MOU", "qty": 2 } ]'],['sku','texto','Código del producto (LAP = laptop, MOU = mouse, TEC = teclado)','"MOU"'],['qty','número entero','Cantidad de unidades de ese producto','2'],['id','texto','Identificador del pedido; lo entrega el servicio al crearlo','"P1"'],['estado','texto','Etapa del pedido: creado, pagado, enviado, entregado o cancelado','"pagado"'],['total','número','Subtotal de los productos más el envío','75']]};
 S.forEach(x=>Object.assign(x,NEW[x.id]||{}));
 const post=async(u,d)=>{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()};
 const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
@@ -244,9 +251,10 @@ function start(u){
 const TPL='Caso: \nPetición: \nEsperado: \nObtenido: \n\n';
 function render(){
   const eps=p.api.map(e=>`<div class="ep"><code class="path">${esc(e.r)}</code><p>${esc(e.d)}</p><dl><dt>Recibe</dt><dd>${esc(e.i)}</dd><dt>Responde</dt><dd>${esc(e.o)}</dd></dl></div>`).join('');
+  const fl=(FIELDS[p.id]||[]).map(([n,t,d,e])=>`<tr><td><code class="path">${esc(n)}</code><br><span class="hint">${esc(t)}</span></td><td>${esc(d)}<br><code>Ej: ${esc(e)}</code></td></tr>`).join('');
   $('pane').innerHTML=`<div class="grid">
   <aside class="card brief"><span class="tag">${esc(p.emp)}</span><h2>${esc(p.tit)}</h2><p style="margin:6px 0 0">${esc(p.his)}</p>
-    <h3>Servicios disponibles</h3>${eps}<h3>Reglas de negocio</h3><ul class="rl">${p.reglas.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></aside>
+    <h3>Servicios disponibles</h3>${eps}<h3>Significado de los campos</h3><table class="fd">${fl}</table><h3>Reglas de negocio</h3><ul class="rl">${p.reglas.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></aside>
   <div class="work">
    <div class="card"><div class="row"><b>Cliente de peticiones</b><span class="hint">Elige el método correcto y prueba el servicio</span></div>
     <div class="bar"><select id="m" aria-label="Método"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select><input id="u" aria-label="Ruta" spellcheck="false"><button class="p" id="go">Enviar</button></div>
